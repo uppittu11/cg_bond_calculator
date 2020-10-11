@@ -90,3 +90,24 @@ class BondCalculator:
     def calc_parameters(self, x, y):
         res = scipy.optimize.minimize(lambda args: self.cost_function(args, x, y), [np.ptp(x)/10, x[np.argmax(y)]])
         return res.x
+
+    def save_to_csv(self, save_name):
+        with open(save_name, 'w') as f:
+            f.write('Bond Parameters\n')
+            f.write('Bead 1, Bead 2, k, units, x0, units\n')
+            for key in self.bond_params.keys():
+                key_write = str(key).translate({ord(i): None for i in "'() "}) # This str.translate() switches the chars on the right for None
+                val1 = self.bond_params[key]['k'].value
+                unit1 = self.bond_params[key]['k'].units
+                val2 = self.bond_params[key]['x0'].value
+                unit2 = self.bond_params[key]['x0'].units
+                f.write(f'{key_write}, {val1}, {unit1}, {val2}, {unit2}\n')
+            f.write('\nAngle Parameters\n')
+            f.write('Bead 1, Bead 2, Bead 3, k, units, x0, units\n')
+            for key in self.angle_params.keys():
+                key_write = str(key).translate({ord(i): None for i in "'() "})
+                val1 = self.angle_params[key]['k'].value
+                unit1 = self.angle_params[key]['k'].units
+                val2 = self.angle_params[key]['x0'].value
+                unit2 = self.angle_params[key]['x0'].units
+                f.write(f'{key_write}, {val1}, {unit1}, {val2}, {unit2}\n')
