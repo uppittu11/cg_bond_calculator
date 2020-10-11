@@ -13,4 +13,7 @@ calc = BondCalculator(traj, T=305)
 # Bond and angle parameters will be stored here:
 calc.bond_params
 calc.angle_params
+
+# Alternatively, save the parameters to a .csv file:
+calc.save_to_csv('file_name.csv')
 ```
